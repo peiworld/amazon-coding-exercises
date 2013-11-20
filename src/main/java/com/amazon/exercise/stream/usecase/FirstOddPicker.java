@@ -2,36 +2,34 @@ package com.amazon.exercise.stream.usecase;
 
 import com.amazon.exercise.stream.provided.Stream;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: felipe
- * Date: 2/24/13
- * Time: 10:12 PM
- * To change this template use File | Settings | File Templates.
- */
+
 public class FirstOddPicker {
     public Character identifyFirstOddFromStream(Stream stream) {
-        Set<Character> charsAlreadyRead = new LinkedHashSet<Character>();
-        Character n = null;
+        Map<Character, Integer> charsTable = new LinkedHashMap<Character, Integer>();
+		Character c = null;
 
-        if(null == stream){
-            return null;
-        }
+		if(null == stream){
+			return null;
+		}
 
-        while (stream.hasNext()){
-            n = Character.toLowerCase(stream.getNext());
+		while (stream.hasNext()){
+			c = stream.getNext();
 
-            if(charsAlreadyRead.isEmpty()){
-                charsAlreadyRead.add(n);
-            }
-            else if(!charsAlreadyRead.contains(n)){
-                return n;
-            }
-        }
-
-        return null;
+			if(charsTable.containsKey(c)){
+				charsTable.put(c, charsTable.get(c)+1);
+			} else {
+				charsTable.put(c, 1);
+			}
+		}
+		
+		for(Character n : charsTable.keySet()){
+			if(charsTable.get(n)==1)
+				return n;
+		}
+		
+		return null;
     }
 }
